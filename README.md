@@ -1,20 +1,4 @@
-# Welcome to your CDK TypeScript project
+# Home Assistant Alexa Skill
 
-This is a blank project for CDK development with TypeScript.
-
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
-
-
-# Smart Home Skill Manifest
-For the format of skill.json see
-[here](https://developer.amazon.com/en-US/docs/alexa/smapi/skill-manifest.html)
-
+This project is a CDK app that creates an Alexa skill that can be used to control Home Assistant.
+If you're looking for a functional skill, this isn't it (yet).  I just started working on it.
