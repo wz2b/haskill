@@ -1,0 +1,19 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Home Assistant",
+          "summary": "Home Assistant skill for autofrog",
+          "description": "Home Assistant skill for autofrog",
+          "examplePhrases": [  ],
+          "keywords": []
+        }
+      },
+      "testingInstructions": "",
+      "category": "SMART_HOME",
+      "distributionCountries": []
+    },
+    "manifestVersion": "1.0"
+  }
+}
