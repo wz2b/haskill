@@ -9,6 +9,8 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import {Secret} from "aws-cdk-lib/aws-secretsmanager";
 import {SecretValue} from "aws-cdk-lib";
+import {HaSkill} from "./haskill";
+import {Permission} from "aws-cdk-lib/aws-lambda";
 
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
@@ -58,7 +60,7 @@ export class HomeStack extends cdk.Stack {
 
         skillBackendLambdaFunction.addToRolePolicy(new iam.PolicyStatement({
                     actions: ['secretsmanager:GetSecretValue'],
-                    resources: [secret.secretArn],
+                    resources: [secret.secretArn]
                 }
             )
         );
@@ -72,14 +74,29 @@ export class HomeStack extends cdk.Stack {
             resources: [table.tableArn]  // Use the correct reference depending on how you defined or imported the table
         }));
 
-        const skill = new Skill(this, 'Skill', {
-            endpointLambdaFunction: skillBackendLambdaFunction, // @aws-cdk/aws-lambda.IFunction object containing backend code for the Alexa Skill
-            skillPackagePath: 'src/skill-package', // path to your skill package
-            alexaVendorId: alexaVendorId, // vendor ID of Alexa Developer account
-            lwaClientId: lwaClientId, // client ID of LWA Security Profile
-            lwaClientSecret: lwaClientSecret, // @aws-cdk/core.SecretValue object containing client secret of LWA Security Profile
-            lwaRefreshToken: lwaRefreshToken // @aws-cdk/core.SecretValue object containing refresh token of LWA Security Profile
+        skillBackendLambdaFunction.addPermission('OpenAlexaInvokePermission', {
+            principal: new iam.ServicePrincipal('alexa-appkit.amazon.com'),
+            action: 'lambda:InvokeFunction',
         });
+
+
+        // const skill = new HaSkill(this, 'HaSkill', {
+        //     endpointLambdaFunction: skillBackendLambdaFunction, // @aws-cdk/aws-lambda.IFunction object containing backend code for the Alexa Skill
+        //     skillPackagePath: 'src/skill-package', // path to your skill package
+        //     alexaVendorId: alexaVendorId, // vendor ID of Alexa Developer account
+        //     lwaClientId: lwaClientId, // client ID of LWA Security Profile
+        //     lwaClientSecret: lwaClientSecret, // @aws-cdk/core.SecretValue object containing client secret of LWA Security Profile
+        //     lwaRefreshToken: lwaRefreshToken // @aws-cdk/core.SecretValue object containing refresh token of LWA Security Profile
+        // });
+
+        //
+        // const permission: Permission = {
+        //     principal: new iam.ServicePrincipal('alexa-appkit.amazon.com'),
+        //     action: 'lambda:InvokeFunction',
+        //     sourceArn: `arn:aws:lambda:us-east-1:384426254369:function:autofrog-ha-skill-autofroghaskillhandler3B318211-gYv1saT9JdD4`, // Use the actual ARN
+        //     eventSourceToken: skill.skillId
+        // }
+        // skillBackendLambdaFunction.addPermission('AlexaInvokePermission', permission);
 
     }
 }

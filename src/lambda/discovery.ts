@@ -17,10 +17,13 @@ export async function handleDiscovery(event: SmartHomeRequest): Promise<AlexaRes
             manufacturerName: item.manufacturerName,
             friendlyName: item.friendlyName,
             description: item.description,
-            displayCategories: item.displayCategories,
+            displayCategories: Array.from(item?.displayCategories || []),
             cookie: {}, // Optionally use this to store useful info that you might need in subsequent requests
-            capabilities: item.capabilities // Ensure this matches Alexa's expected format
+            capabilities: Array.from(item?.capabilities || []) // Ensure this matches Alexa's expected format
         })) ?? [];
+
+        console.log("Returning", endpoints.length, "endpoints");
+        console.log(endpoints);
 
         return {
             event: {
